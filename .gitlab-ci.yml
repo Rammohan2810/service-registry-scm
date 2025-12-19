@@ -14,7 +14,7 @@ variables:
 build-war:
   stage: build
   tags:
-    - shell
+    - tomcat
   script:
     - gradlew.bat clean build -x test
   artifacts:
