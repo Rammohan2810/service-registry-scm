@@ -1,3 +1,8 @@
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+
 stages:
   - build
   - deploy
@@ -11,7 +16,7 @@ build-war:
   tags:
     - tomcat
   script:
-    - gradlew clean build -x test
+    - gradlew.bat clean build -x test
   artifacts:
     paths:
       - build/libs/*.war
@@ -20,6 +25,8 @@ deploy-to-tomcat:
   stage: deploy
   tags:
     - tomcat
+  needs:
+    - build-war
   script:
     - echo Stopping Tomcat
     - "%TOMCAT_HOME%\\bin\\shutdown.bat"
