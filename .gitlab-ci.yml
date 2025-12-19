@@ -8,7 +8,7 @@ stages:
   - deploy
 
 variables:
-  TOMCAT_HOME: "C:\\apache-tomcat-9.0.80"
+  TOMCAT_HOME: "C:\Esfita\Software\apache-tomcat-10.1.34"
   WAR_NAME: "service-registry-scm.war"
 
 build-war:
