@@ -1,0 +1,30 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  TOMCAT_HOME: "C:\\apache-tomcat-9.0.80"
+  WAR_NAME: "service-registry-scm.war"
+
+build-war:
+  stage: build
+  tags:
+    - tomcat
+  script:
+    - gradlew clean build -x test
+  artifacts:
+    paths:
+      - build/libs/*.war
+
+deploy-to-tomcat:
+  stage: deploy
+  tags:
+    - tomcat
+  script:
+    - echo Stopping Tomcat
+    - "%TOMCAT_HOME%\\bin\\shutdown.bat"
+    - timeout /t 5
+    - echo Deploying WAR
+    - copy /Y build\\libs\\%WAR_NAME% %TOMCAT_HOME%\\webapps\\%WAR_NAME%
+    - echo Starting Tomcat
+    - "%TOMCAT_HOME%\\bin\\startup.bat"
